@@ -1,0 +1,47 @@
+.users {
+  &__table {
+    width: 100%;
+    border-spacing: 0;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    margin-top: 20px;
+    th,
+    td {
+      padding: 8px;
+      text-align: left;
+    }
+    thead {
+      tr {
+        background-color: #628b48;
+      }
+    }
+    tr:nth-child(even) {
+      background-color: #000000;
+    }
+    tr:nth-child(even) {
+      background-color: #8a8a8a;
+    }
+    &__action {
+      display: flex;
+      gap: 10px;
+      &__edit {
+        background-color: #5ea332;
+      }
+      &__delete {
+        background-color: #964949;
+      }
+    }
+  }
+}
+
+.pagination {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.userImage {
+  width: 50px;
+  height: 50px;
+  border-radius: 10%;
+}

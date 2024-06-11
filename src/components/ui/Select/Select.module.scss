@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+  &__select {
+    appearance: none;
+    padding: 10px 9px;
+    background-color: #4e4d4d;
+    margin-top: 5px;
+    border: none;
+    outline: none;
+    &__selected {
+      color: #6fffe9;
+      background-color: rgba(255, 255, 0, 0.437);
+      &:hover {
+        background-color: rgb(230, 215, 8);
+        color: #aa667cd4;
+      }
+    }
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  }
+}

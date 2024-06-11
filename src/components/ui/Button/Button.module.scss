@@ -1,0 +1,21 @@
+.button {
+  padding: 10px 9px;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 3px;
+  &:hover {
+    background-color: rgb(230, 215, 8); // Ganti dengan warna yang diinginkan
+    color: #aa667cd4; // Ganti dengan warna yang diinginkan
+  }
+}
+
+.warning {
+  background-color: rgba(230, 215, 8, 0.316);
+  color: #ffffff;
+}
