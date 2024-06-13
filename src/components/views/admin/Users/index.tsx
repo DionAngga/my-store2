@@ -40,7 +40,14 @@ const UsersAdminView = (props: PropTypes) => {
     const currentUsers = usersData.slice(startIndex, startIndex + usersPerPage);
     setGetCurrentUser(currentUsers);
     setstartIndex(startIndex);
-  }, [users, currentPage, usersPerPage, usersData, getCurrentUser]);
+  }, [
+    users,
+    currentPage,
+    usersPerPage,
+    usersData,
+    getCurrentUser,
+    getTotalPage,
+  ]);
   // Get the users for the current page
 
   useEffect(() => {

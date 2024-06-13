@@ -4,9 +4,11 @@ import Modal from "@/components/ui/Modal";
 import Select from "@/components/ui/Select";
 import userServices from "@/services/user";
 import { FormEvent, useState } from "react";
+import { useSession } from "next-auth/react";
 
 const ModalUpdateUser = (props: any) => {
   const { updatedUser, setUpdatedUser, setUsersData } = props;
+  const session: any = useSession();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleUpdateUser = async (event: FormEvent<HTMLFormElement>) => {
@@ -15,10 +17,14 @@ const ModalUpdateUser = (props: any) => {
 
     const form = event.target as HTMLFormElement;
     const data = {
-      role: form?.role,
+      role: (form.elements.namedItem("role") as HTMLSelectElement).value,
     };
 
-    const result = await userServices.updateUser(updatedUser.id, data);
+    const result = await userServices.updateUser(
+      updatedUser.id,
+      data,
+      session.data.accessToken
+    );
 
     if (result.status === 200) {
       setIsLoading(false);
@@ -60,6 +66,10 @@ const ModalUpdateUser = (props: any) => {
           options={[
             { label: "Member", value: "member" },
             { label: "Admin", value: "admin" },
+            { label: "Teroris", value: "teroris" },
+            { label: "Penyamun", value: "penyamun" },
+            { label: "Biksu", value: "biksu" },
+            { label: "Ahli Taurat", value: "ahli taurat" },
           ]}
         />
         <Button type="submit" disabled={isLoading}>
