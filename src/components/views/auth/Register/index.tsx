@@ -54,7 +54,7 @@ const RegisterView = () => {
           variant="warning"
           className={styles.register__button}
         >
-          {isLoading ? "tunggu bentar.." : "Register"}
+          {isLoading ? "tunggu besad entar.." : "Register"}
         </Button>
       </form>
     </AuthLayout>

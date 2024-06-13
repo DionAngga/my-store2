@@ -27,7 +27,7 @@ const ModalDeleteUser = (props: any) => {
           // router.refresh();
         }}
       >
-        Delete
+        Deletedsd
       </Button>
     </Modal>
   );

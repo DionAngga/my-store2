@@ -54,7 +54,7 @@ const LoginView = () => {
           variant="warning"
           className={styles.login__button}
         >
-          {isLoading ? "tunggu bentar.." : "Login"}
+          {isLoading ? "tunggu bentar.ddcd." : "Login"}
         </Button>
       </form>
       <hr className={styles.login__divider} />
