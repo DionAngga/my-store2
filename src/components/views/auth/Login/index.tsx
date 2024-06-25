@@ -32,7 +32,7 @@ const LoginView = () => {
         push(callbackUrl);
       } else {
         setIsLoading(false);
-        setError("salah input email atau password");
+        setError("email atau password anda salah");
       }
     } catch (error) {
       setIsLoading(false);
@@ -44,6 +44,7 @@ const LoginView = () => {
     <AuthLayout
       title="Login"
       link="/auth/register"
+      error={error}
       linkText="Belum punya akun?"
     >
       <form onSubmit={handleSubmit}>
@@ -54,7 +55,11 @@ const LoginView = () => {
           variant="warning"
           className={styles.login__button}
         >
-          {isLoading ? "tunggu bentar.ddcd." : "Login"}
+          {isLoading ? (
+            <i className="bx bx-loader-alt bx-spin bx-rotate-90" />
+          ) : (
+            "Login"
+          )}
         </Button>
       </form>
       <hr className={styles.login__divider} />

@@ -26,9 +26,6 @@ export default async function handler(
     const { user }: any = req.query;
     const { data } = req.body;
     const token = req.headers.authorization?.split(" ")[1] || "";
-    console.log("data1", user);
-    console.log("data2", data);
-    console.log("data3", token);
     jwt.verify(
       token,
       process.env.NEXTAUTH_SECRET || "",
@@ -59,21 +56,6 @@ export default async function handler(
         }
       }
     );
-
-    //   if (result) {
-    //     res.status(200).json({
-    //       status: true,
-    //       statusCode: 200,
-    //       message: "sukses coy",
-    //     });
-    //   } else {
-    //     res.status(400).json({
-    //       status: false,
-    //       statusCode: 400,
-    //       message: "gagal cok",
-    //     });
-    //   }
-    // });
   }
 
   if (req.method === "DELETE") {
