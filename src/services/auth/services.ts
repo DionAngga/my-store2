@@ -3,13 +3,15 @@ import bcrypt from "bcrypt";
 
 export async function signUp(
   userData: {
-    updated_at: Date;
-    created_at: Date;
+    id?: string;
+    updated_at?: Date;
+    created_at?: Date;
     email: string;
     fullname: string;
     phone: string;
     password: string;
     role?: string;
+    image?: string;
   },
   callback: Function
 ) {
@@ -21,6 +23,7 @@ export async function signUp(
     if (!userData.role) {
       userData.role = "member";
     }
+    userData.image = "";
     userData.password = await bcrypt.hash(userData.password, 10);
     userData.created_at = new Date();
     userData.updated_at = new Date();
@@ -42,11 +45,13 @@ export async function signIn(email: string) {
 
 export async function loginWithGoogle(
   data: {
+    id: string;
     email: string;
     role?: string;
     password?: string;
     created_at?: Date;
     updated_at?: Date;
+    image?: string;
   },
   callback: Function
 ) {
@@ -59,8 +64,9 @@ export async function loginWithGoogle(
     data.created_at = new Date();
     data.updated_at = new Date();
     data.password = "";
-    await addData("users", data, (result: boolean) => {
-      if (result) callback(data);
+    await addData("users", data, (status: boolean, res: any) => {
+      data.id = res.path.replace("users/", "");
+      if (status) callback(data);
     });
   }
 }

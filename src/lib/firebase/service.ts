@@ -11,8 +11,16 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import app from "./init";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 
 const firestore = getFirestore(app);
+
+const storage = getStorage(app);
 
 export async function getCollection(collectionName: string) {
   const snapshot = await getDocs(collection(firestore, collectionName));
@@ -62,8 +70,8 @@ export async function addData(
   callback: Function
 ) {
   await addDoc(collection(firestore, collectionName), data)
-    .then(() => {
-      callback(true);
+    .then((res) => {
+      callback(true, res);
     })
     .catch((error) => {
       callback(false);
@@ -114,4 +122,33 @@ export async function deleteData(
     .catch(() => {
       callback(false);
     });
+}
+
+export async function uploadFile(
+  userid: string,
+  file: any,
+  callback: Function
+) {
+  if (file && file.size < 1048576) {
+    console.log("ikan", file);
+    const newName = `userid_profile.${file.name.split(".")[1]}`;
+    const storageRef = ref(storage, `images/users/${userid}/${newName}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 10;
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL: any) => {
+          callback(true, downloadURL);
+        });
+      }
+    );
+  }
+
+  return callback(true);
 }

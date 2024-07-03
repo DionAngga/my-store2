@@ -62,7 +62,7 @@ const LoginView = () => {
           )}
         </Button>
       </form>
-      <hr className={styles.login__divider} />
+      <br />
       <div className={styles.login__other}>
         <Button
           type="submit"

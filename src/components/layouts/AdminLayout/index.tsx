@@ -6,9 +6,9 @@ type Proptypes = {
 };
 
 const listSideBarItem = [
-  { title: "Dashboard", url: "/admin", icon: "bxs-dashboard" },
+  { title: "Dashboard", url: "/admin", icon: "bx bxs-dashboard" },
   { title: "Products", url: "/admin/products", icon: "bx bx-box warning" },
-  { title: "Users", url: "/admin/users", icon: "bxs-user" },
+  { title: "Users", url: "/admin/users", icon: "bx bxs-user" },
 ];
 
 const AdminLayout = (props: Proptypes) => {

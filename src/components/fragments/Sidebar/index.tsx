@@ -29,7 +29,7 @@ const Sidebar = (props: Proptypes) => {
               }`}
             >
               <i
-                className={`bx ${list.icon} ${styles.sidebar__top__lists__item__icon} `}
+                className={`${list.icon} ${styles.sidebar__top__lists__item__icon} `}
               />
               <h4 className={styles.sidebar__top__lists__item__title}>
                 {list.title}

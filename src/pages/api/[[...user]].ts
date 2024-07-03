@@ -30,6 +30,7 @@ export default async function handler(
       token,
       process.env.NEXTAUTH_SECRET || "",
       async (err: any, decoded: any) => {
+        console.log("ikan jaya2", decoded);
         if (decoded && decoded.role === "admin") {
           await updateData("users", user[1], data, (result: boolean) => {
             if (result) {
@@ -65,7 +66,10 @@ export default async function handler(
       token,
       process.env.NEXTAUTH_SECRET || "",
       async (err: any, decoded: any) => {
-        if (decoded && decoded.role === "admin") {
+        if (
+          decoded &&
+          (decoded.role === "admin" || decoded.role === "ahli taurat")
+        ) {
           await deleteData("users", user[1], (result: boolean) => {
             if (result) {
               res.status(200).json({
