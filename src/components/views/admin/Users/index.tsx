@@ -1,28 +1,30 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import AdminLayout from "@/components/layouts/AdminLayout";
 import Button from "@/components/ui/Button";
 import styles from "./Users.module.scss";
-import Modal from "@/components/ui/Modal";
 import ModalUpdateUser from "./ModalUpdateUser";
-import userServices from "@/services/user";
 import ModalDeleteUser from "./ModalDeletedUser";
+import { User } from "@/types/user.type";
+import { useSession } from "next-auth/react";
 
-type User = {
-  id: number;
-  fullname: string;
-  email: string;
-  phone: string;
-  role: string;
-};
+// type User = {
+//   id: number;
+//   fullname: string;
+//   email: string;
+//   phone: string;
+//   role: string;
+// };
 
 type PropTypes = {
   users: User[];
+  setToaster: Dispatch<SetStateAction<{}>>;
 };
 
 const UsersAdminView = (props: PropTypes) => {
-  const { users } = props;
-  const [updatedUser, setUpdatedUser] = useState<any>({});
-  const [deletedUser, setDeletedUser] = useState<any>({});
+  const session = useSession();
+  const { users, setToaster } = props;
+  const [updatedUser, setUpdatedUser] = useState<User | {}>({});
+  const [deletedUser, setDeletedUser] = useState<User | {}>({});
   const [usersData, setUsersData] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [getTotalPage, setgetTotalPage] = useState(1);
@@ -71,7 +73,7 @@ const UsersAdminView = (props: PropTypes) => {
               </tr>
             </thead>
             <tbody>
-              {getCurrentUser.map((user: any, index: number) => (
+              {getCurrentUser.map((user: User, index: number) => (
                 <tr key={user.id}>
                   <td>{getstartIndex + index + 1}</td>
                   <td>{user.fullname}</td>
@@ -137,6 +139,8 @@ const UsersAdminView = (props: PropTypes) => {
           updatedUser={updatedUser}
           setUpdatedUser={setUpdatedUser}
           setUsersData={setUsersData}
+          setToaster={setToaster}
+          session={session}
         />
       )}
       {Object?.keys(deletedUser || {})?.length > 0 && (
@@ -146,6 +150,8 @@ const UsersAdminView = (props: PropTypes) => {
           setUsersData={setUsersData}
           usersPerPage={usersPerPage}
           usersLength={users.length}
+          setToaster={setToaster}
+          session={session}
         />
       )}
     </>

@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { retrieveDataById, updateData } from "@/lib/firebase/service";
+import { compare, hash } from "bcrypt";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,7 +14,6 @@ export default async function handler(
         token,
         process.env.NEXTAUTH_SECRET || "",
         async (err: any, decoded: any) => {
-          console.log("ikan jaya 3", decoded);
           if (decoded) {
             const profile = await retrieveDataById("users", decoded.id);
             if (profile) {
@@ -46,16 +46,31 @@ export default async function handler(
     }
   }
   if (req.method === "PUT") {
-    const { user }: any = req.query;
     const { data } = req.body;
     const token = req.headers.authorization?.split(" ")[1] || "";
     jwt.verify(
       token,
       process.env.NEXTAUTH_SECRET || "",
       async (err: any, decoded: any) => {
-        console.log("ikan jaya", decoded);
         if (decoded) {
-          await updateData("users", user[0], data, (result: boolean) => {
+          if (data.password) {
+            const passwordConfirm = await compare(
+              data.oldPassword,
+              data.encryptedPassword
+            );
+            if (!passwordConfirm) {
+              res.status(400).json({
+                status: false,
+                statusCode: 400,
+                message: "salah cuk",
+              });
+            }
+            delete data.oldPassword;
+            delete data.encryptedPassword;
+            data.password = await hash(data.password, 10);
+          }
+
+          await updateData("users", decoded.id, data, (result: boolean) => {
             if (result) {
               res.status(200).json({
                 status: true,

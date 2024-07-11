@@ -1,10 +1,10 @@
 import MemberLayout from "@/components/layouts/MemberLayout";
 
-const DashboardMemberView = () => {
+const DashboardMemberView = ({ title }: any) => {
   return (
     <MemberLayout>
       <div>
-        <div>Member Page</div>
+        <div>{title || "member"}</div>
       </div>
     </MemberLayout>
   );

@@ -16,19 +16,20 @@ const Button = (props: Proptypes) => {
     children,
     variant = "warning",
     className,
-    disabled = false,
+    disabled,
   } = props;
   return (
     <div className={styles.container}>
-      {!disabled && (
-        <button
-          type={type}
-          onClick={onClick}
-          className={`${styles.button} ${styles[variant]} ${className}`}
-        >
-          {children}
-        </button>
-      )}
+      {/* {!disabled && ( */}
+      <button
+        type={type}
+        onClick={onClick}
+        className={`${styles.button} ${styles[variant]} ${className}`}
+        disabled={disabled}
+      >
+        {children}
+      </button>
+      {/* )} */}
     </div>
   );
 };

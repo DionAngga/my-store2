@@ -3,7 +3,7 @@ import DashboardMemberView from "@/components/views/member/Dashboard";
 const MemberPage = () => {
   return (
     <>
-      <DashboardMemberView />
+      <DashboardMemberView title={"Order"} />
     </>
   );
 };

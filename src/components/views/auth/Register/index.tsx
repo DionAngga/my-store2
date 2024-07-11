@@ -1,13 +1,17 @@
 import Link from "next/link";
 import styles from "./Register.module.scss";
-import { FormEvent, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { useRouter } from "next/router";
-import Anput from "@/components/ui/Anput";
-import Button from "@/components/ui/Button";
-import authServices from "@/services/auth";
-import AuthLayout from "@/components/layouts/AuthLayout";
+import Anput from "../../../../components/ui/Anput";
+import Button from "../../../../components/ui/Button";
+import authServices from "../../../../services/auth";
+import AuthLayout from "../../../../components/layouts/AuthLayout";
 
-const RegisterView = () => {
+const RegisterView = ({
+  setToaster,
+}: {
+  setToaster: Dispatch<SetStateAction<any>>;
+}) => {
   // const app = express();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -25,21 +29,37 @@ const RegisterView = () => {
       role: form.letter.value,
     };
 
-    const result = await authServices.registerAccount(data);
-
-    if (result.status === 200) {
+    try {
+      const result = await authServices.registerAccount(data);
+      if (result.status === 200) {
+        setIsLoading(false);
+        form.reset();
+        push("/auth/login");
+        setToaster({
+          variant: "success",
+          message: "yeay success register",
+        });
+      } else {
+        setIsLoading(false);
+        setError("ngga boleh pake email yang sama cuy1");
+        setToaster({
+          variant: "danger",
+          message: "Register failed, please call support1",
+        });
+      }
+    } catch (error) {
       setIsLoading(false);
-      form.reset();
-      push("/auth/login");
-    } else {
-      setIsLoading(false);
-      setError("ngga boleh pake email yang sama cuy");
+      setError("ngga boleh pake email yang sama cuy2");
+      setToaster({
+        variant: "danger",
+        message: "Email Registered",
+      });
     }
   };
   return (
     <AuthLayout
       title="Register"
-      error={error}
+      // error={error}
       link="/auth/login"
       linkText="sudah punya akun? "
     >
@@ -54,7 +74,7 @@ const RegisterView = () => {
           variant="warning"
           className={styles.register__button}
         >
-          {isLoading ? "tunggu besad entar.." : "Register"}
+          {isLoading ? "tunggu sebentar..." : "Register"}
         </Button>
       </form>
     </AuthLayout>

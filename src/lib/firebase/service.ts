@@ -130,7 +130,6 @@ export async function uploadFile(
   callback: Function
 ) {
   if (file && file.size < 1048576) {
-    console.log("ikan", file);
     const newName = `userid_profile.${file.name.split(".")[1]}`;
     const storageRef = ref(storage, `images/users/${userid}/${newName}`);
     const uploadTask = uploadBytesResumable(storageRef, file);

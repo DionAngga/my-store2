@@ -2,18 +2,51 @@ import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import userServices from "@/services/user";
 import styles from "@/styles/Home.module.css";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { User } from "@/types/user.type";
 
-const ModalDeleteUser = (props: any) => {
-  const { deletedUser, setDeletedUser, setUsersData } = props;
-  const router = useRouter();
-  const session: any = useSession();
+type PropTypes = {
+  setUsersData: Dispatch<SetStateAction<User[]>>;
+  setToaster: Dispatch<SetStateAction<{}>>;
+  deletedUser: User | any;
+  setDeletedUser: Dispatch<SetStateAction<{}>>;
+  session: any;
+  usersPerPage: any;
+  usersLength: any;
+};
+
+const ModalDeleteUser = (props: PropTypes) => {
+  const {
+    deletedUser,
+    setDeletedUser,
+    setUsersData,
+    session,
+    setToaster,
+    usersPerPage,
+  } = props;
+  // const session: any = useSession();
+  const [isLoading, setIsLoading] = useState(false);
   const handleDelete = async () => {
-    userServices.deleteUser(deletedUser.id, session.data.accessToken);
-    setDeletedUser({});
-    const { data } = await userServices.getAllUsers();
-    setUsersData(data.data);
+    const result = await userServices.deleteUser(
+      deletedUser.id,
+      session.data.accessToken
+    );
+    if (result.status === 200) {
+      setDeletedUser({});
+      const { data } = await userServices.getAllUsers();
+      setUsersData(data.data);
+      setToaster({
+        variant: "success",
+        message: "success deleted!!",
+      });
+    } else {
+      setIsLoading(false);
+      setToaster({
+        variant: "danger",
+        message: "fail updated",
+      });
+    }
   };
   return (
     <Modal onClose={() => setDeletedUser({})}>
@@ -27,7 +60,7 @@ const ModalDeleteUser = (props: any) => {
           // router.refresh();
         }}
       >
-        Deletedsd
+        yes, sure!!
       </Button>
     </Modal>
   );

@@ -26,7 +26,6 @@ export default async function handler(
     }
   }
 
-  console.log("isi req", req);
   if (req.method === "POST") {
     await signUp(req.body, (status: boolean) => {
       if (status) {

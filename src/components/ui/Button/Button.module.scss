@@ -9,6 +9,10 @@
   font-size: 12px;
   font-weight: 700;
   border-radius: 3px;
+  &:disabled {
+    opacity: 0;
+    cursor: help;
+  }
   &:hover {
     background-color: rgb(230, 215, 8); // Ganti dengan warna yang diinginkan
     color: #aa667cd4; // Ganti dengan warna yang diinginkan

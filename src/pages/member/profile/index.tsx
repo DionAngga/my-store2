@@ -1,10 +1,15 @@
 import ProfileMemberView from "@/components/views/member/Profile";
 import userServices from "@/services/user";
-import { useState, useEffect } from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { User } from "@/types/user.type";
 
-const ProfilePage = () => {
-  const [profile, setProfile] = useState([]);
+type PropTypes = {
+  setToaster: Dispatch<SetStateAction<{}>>;
+};
+
+const ProfilePage = ({ setToaster }: PropTypes) => {
+  const [profile, setProfile] = useState<User | {}>({});
   const session: any = useSession();
 
   useEffect(() => {
@@ -25,6 +30,7 @@ const ProfilePage = () => {
         profile={profile}
         setProfile={setProfile}
         session={session}
+        setToaster={setToaster}
       />
     </>
   );

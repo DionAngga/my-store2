@@ -1,13 +1,17 @@
 import Link from "next/link";
 import styles from "./Login.module.scss";
-import { FormEvent, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import Anput from "@/components/ui/Anput";
 import Button from "@/components/ui/Button";
 import AuthLayout from "@/components/layouts/AuthLayout";
 
-const LoginView = () => {
+const LoginView = ({
+  setToaster,
+}: {
+  setToaster: Dispatch<SetStateAction<{}>>;
+}) => {
   // const app = express();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -30,13 +34,25 @@ const LoginView = () => {
         setIsLoading(false);
         form.reset();
         push(callbackUrl);
+        setToaster({
+          variant: "success",
+          message: "login success, yeay!",
+        });
       } else {
         setIsLoading(false);
-        setError("email atau password anda salah");
+        //setError("email atau password anda salah");
+        setToaster({
+          variant: "danger",
+          message: "Email or Password is incorrect",
+        });
       }
     } catch (error) {
       setIsLoading(false);
-      setError("error jir. coba cek koneksi internet atau tidur aja");
+      //setError("error jir. coba cek koneksi internet atau tidur aja");
+      setToaster({
+        variant: "danger",
+        message: "Login Failed, please call support",
+      });
     }
   };
 
@@ -44,8 +60,9 @@ const LoginView = () => {
     <AuthLayout
       title="Login"
       link="/auth/register"
-      error={error}
+      // error={error}
       linkText="Belum punya akun?"
+      setToaster={setToaster}
     >
       <form onSubmit={handleSubmit}>
         <Anput label="Email" name="email" type="email" />
